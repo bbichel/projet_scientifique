@@ -32,8 +32,9 @@ if __name__ == "__main__":
                 # Sinon, c'est une carte
                 else:
                     if len(line) == 8:
-                        print("Carte détéctée : {}".format(line))
+                        # print("Carte détéctée : {}".format(line))
 
+                        # Initialize the request object 
                         cursor = conn.cursor()
 
                         # Check if the db is empty
@@ -41,7 +42,7 @@ if __name__ == "__main__":
                                         SELECT * FROM data
                                   """).rowcount is not None:
                             # Select and print requested data
-                            print(cursor.execute("""
+                            print("Carte détectée :" + cursor.execute("""
                                          SELECT detail FROM data WHERE detail = ?
                                    """, line).fetchone())
                     else:
