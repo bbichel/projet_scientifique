@@ -1,0 +1,29 @@
+import sqlite3
+
+connection = "data.db"
+
+try:
+    conn = sqlite3.connect(connection)
+
+    cursor = conn.cursor()
+
+    # create table
+    cursor.execute("""
+                CREATE TABLE IF NOT EXISTS data(
+                    id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
+                    detail TEXT
+                )
+            """)
+
+    # insert data
+    cursor.execute("""
+                INSERT INTO data(detail) VALUES ("758A3BD5"),
+                                                ("A6D2EF13")
+            """)
+
+    conn.commit()
+except sqlite3.Error as e:
+    print
+    "An error occurred:", e.args[0]
+finally:
+    conn.close()
