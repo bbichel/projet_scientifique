@@ -11,21 +11,20 @@ try:
     cursor.execute("""
                 CREATE TABLE IF NOT EXISTS data(
                     id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
-                    nuID VARCHAR(8),
+                    NUID VARCHAR(8) UNIQUE,
                     detail VARCHAR(255)
-                )
+                );
             """)
 
     # insert data
     cursor.execute("""
-                INSERT INTO data(nuID, detail) VALUES ("4408FC93", "C25"),
-                                                ("A6D2EF13", "C23"),
-                                                ("4A5A2AE2", "C20")
+                INSERT INTO data(nuID, detail) VALUES ("4408FC93", "Production"),
+                                                ("A6D2EF13", "Bureau CS32"),
+                                                ("4A5A2AE2", "Assemblage");
             """)
 
     conn.commit()
-except sqlite3.Error as e:
-    print
-    "An error occurred:", e.args[0]
+except sqlite3.Error as ex:
+    print("Erreur : {}".format(ex))
 finally:
     conn.close()
