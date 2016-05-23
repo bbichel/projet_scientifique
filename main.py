@@ -9,7 +9,7 @@ if __name__ == "__main__":
         # Initialise the connection of data.db
         conn = sqlite3.connect(connection)
 
-        port = "COM6"
+        port = "COM3"
         baudrate = 9600
 
         try:
@@ -28,39 +28,30 @@ if __name__ == "__main__":
 
                 # Si la ligne commence par un dièse, c'est que c'est un commentaire
                 if line[0] == "#":
-                    print("Commentaire : {}".format(line[1:]))  # on se contente de l'afficher
+                    print("Commentaire : {}".format(line[1:].strip()))  # on se contente de l'afficher
                 # Sinon, c'est une carte
                 else:
                     if len(line) == 8:
-                        # print("Carte détéctée : {}".format(line))
-
-                        # Initialize the request object
                         cursor = conn.cursor()
+                        result = cursor.execute("SELECT detail FROM data WHERE NUID = ?;", [line]).fetchone()
 
-                        # Check if the db is empty
-                        if cursor.execute("""
-                                        SELECT * FROM data
-                                  """).rowcount is not None:
-                            # Select and print requested data
-
-                            result = cursor.execute("""
-                                  SELECT detail FROM data WHERE nuID = ?
-                            """, [line]).fetchone()[0]
-
-                            print("Carte détectée : " + result)
-
-                            ser.write(str.encode(result))
+                        if result:
+                            print("Carte détectée ({}) : {}".format(line, result[0]))
+                            ser.write(str.encode(result[0]))
+                        else:
+                            print("Carte détectée ({}) : Ce marqueur n'est pas enregistré dans la base.".format(line))
+                            ser.write(b"<Not in db>")
                     else:
                         print("Avertissement : L'identifiant de la carte est incorrect ({})".format(line))
             ser.close()
         except serial.SerialException as ex:
-            print("Erreur : {}".format(ex))
+            print("Erreur (serial) : {}".format(ex))
         except KeyboardInterrupt:
             # Si on fait Ctrl+C, pour quitter
             ser.close()
     # Error related to the database
-    except sqlite3.Error as e:
-        print("An error occurred:", e)
+    except sqlite3.Error as ex:
+        print("Erreur (sqlite) : {}".format(ex))
     finally:
         # Closure of the connexion
         conn.close()
