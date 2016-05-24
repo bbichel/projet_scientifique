@@ -33,7 +33,7 @@ if __name__ == "__main__":
                 else:
                     if len(line) == 8:
                         cursor = conn.cursor()
-                        result = cursor.execute("SELECT detail FROM data WHERE NUID = ?;", [line]).fetchone()
+                        result = cursor.execute("SELECT room_name FROM Tags WHERE nuid = ?;", [line]).fetchone()
 
                         if result:
                             print("Carte détectée ({}) : {}".format(line, result[0]))
