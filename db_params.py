@@ -9,18 +9,21 @@ try:
 
     # create table
     cursor.execute("""
-                CREATE TABLE IF NOT EXISTS data(
+                CREATE TABLE IF NOT EXISTS Tags(
                     id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
-                    NUID VARCHAR(8) UNIQUE,
-                    detail VARCHAR(255)
+                    nuid VARCHAR(8) UNIQUE,
+                    room_name VARCHAR(255),
+                    x REAL,
+                    y REAL
                 );
             """)
 
     # insert data
     cursor.execute("""
-                INSERT INTO data(nuID, detail) VALUES ("4408FC93", "Production"),
-                                                ("A6D2EF13", "Bureau CS32"),
-                                                ("4A5A2AE2", "Assemblage");
+                INSERT INTO Tags(nuid, room_name, x, y)
+                VALUES ("4408FC93", "Salle C26", 282, 282),
+                       ("A6D2EF13", "Local du BDE", 608, 453),
+                       ("4A5A2AE2", "Salle C28", 241, 754);
             """)
 
     conn.commit()
