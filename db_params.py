@@ -21,9 +21,9 @@ try:
     # insert data
     cursor.execute("""
                 INSERT INTO Tags(nuid, room_name, x, y)
-                VALUES ("4408FC93", "Salle C26", 282, 282),
-                       ("A6D2EF13", "Local du BDE", 608, 453),
-                       ("4A5A2AE2", "Salle C28", 241, 754);
+                VALUES ("4408FC93", "Salle C26", 141, 141),
+                       ("A6D2EF13", "Local du BDE", 304, 226),
+                       ("4A5A2AE2", "Salle C28", 120, 377);
             """)
 
     conn.commit()
