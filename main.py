@@ -67,14 +67,15 @@ class App(tk.Tk):
                                 filename = tk.PhotoImage(file="map_marker.gif")
                                 image = self.canvas.create_image(posx, posy, anchor=tk.S, image=filename)
                                 self.label["text"] = "Marqueur détecté ({}) : {}".format(line, room_name)
-                                print("Marqueur détectée ({}) : {}".format(line, room_name))
+                                print("Marqueur détecté ({}) : {}".format(line, room_name))
                                 ser.write(str.encode(room_name))
                             else:
-                                self.label["text"] = "Marqueur détectée ({}) : Ce marqueur n'est pas enregistré dans la base.".format(line)
-                                print("Marqueur détectée ({}) : Ce marqueur n'est pas enregistré dans la base.".format(line))
-                                ser.write(b"<Not in db>")
+                                self.label["text"] = "Marqueur détecté ({}) : Ce marqueur n'est pas enregistré dans la base.".format(line)
+                                print("Marqueur détecté ({}) : Ce marqueur n'est pas enregistré dans la base.".format(line))
+                                ser.write(b"<Carte inconnue>")
                         else:
-                            print("Avertissement : L'identifiant de du marqueur est incorrect ({})".format(line))
+                            self.label["text"] = "Avertissement : L'identifiant du marqueur est incorrect ({})".format(line)
+                            print("Avertissement : L'identifiant du marqueur est incorrect ({})".format(line))
                 ser.close()
             except serial.SerialException as ex:
                 self.label["text"] = "Erreur (serial) : {}".format(ex)
